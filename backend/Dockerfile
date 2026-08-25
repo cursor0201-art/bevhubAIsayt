@@ -24,5 +24,7 @@ COPY . /app/
 # Открываем порт
 EXPOSE 8000
 
-# Запускаем Gunicorn
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120"]
+# Скрипт запуска: сначала миграции, потом сервер
+RUN echo '#!/bin/bash\nset -e\npython manage.py migrate --noinput\npython manage.py collectstatic --noinput\nexec gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 120' > /app/start.sh && chmod +x /app/start.sh
+
+CMD ["/app/start.sh"]
