@@ -1,0 +1,17 @@
+result:
+  success: true
+  output:
+    files: []
+    tests: []
+    documentation: []
+    deployment: {}
+  validation:
+    architecture: {}
+    security: {}
+    performance: {}
+    tests: {}
+  telemetry:
+    cost: 0.0
+    latency: 0.0
+    tokens: 0
+    retries: 0

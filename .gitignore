@@ -1,0 +1,63 @@
+# ─── Python / Django Backend ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# Django
+db.sqlite3
+celery_broker.sqlite3
+celery_results.sqlite3
+*.sqlite3
+staticfiles/
+media/
+error_log.json
+error_log.txt
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+*.cover
+coverage.xml
+
+# ─── Node.js / Next.js Frontend ───────────────────────────────────────────
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Frontend env secrets
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# ─── General ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+.idea/
+.vscode/
+*.orig
+
+# ─── Root-level node artifacts ────────────────────────────────────────────
+/node_modules/
+/package-lock.json

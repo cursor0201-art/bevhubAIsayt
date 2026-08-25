@@ -1,0 +1,14 @@
+request:
+  id: uuid
+  workspace: uuid
+  project: uuid
+  task:
+    type: feature
+    prompt: string
+  limits:
+    max_tokens: 120000
+    budget: 0.30
+    timeout: 180
+  metadata:
+    language: auto
+    framework: auto

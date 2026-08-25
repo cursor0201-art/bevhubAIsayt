@@ -1,0 +1,15 @@
+{
+  "name": "@bevhub/ai-core",
+  "version": "1.0.0",
+  "description": "Core AI runtime package for BevHub containing Planner, Compiler, Context Engine, Runtime, Validator, Memory, and Telemetry",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/tests/run.js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^5.4.5"
+  }
+}

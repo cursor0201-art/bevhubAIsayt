@@ -1,0 +1,15 @@
+evolution:
+  observe:
+    - commits
+    - reviews
+    - tests
+    - incidents
+    - deployments
+
+  analyze:
+    - patterns
+    - regressions
+    - improvements
+
+  update:
+    genome

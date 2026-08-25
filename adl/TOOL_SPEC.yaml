@@ -1,0 +1,18 @@
+tool:
+  id: github
+
+permissions:
+  - repository_read
+  - repository_write
+  - issues
+  - pull_requests
+
+limits:
+  timeout: 300
+  retries: 3
+
+logging:
+  enabled: true
+
+audit:
+  enabled: true

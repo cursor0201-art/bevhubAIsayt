@@ -1,0 +1,32 @@
+version: 1.0
+
+system:
+  id: bevhub-core
+
+services:
+  planner:
+    required: true
+  compiler:
+    required: true
+  runtime:
+    required: true
+  validator:
+    required: true
+  context:
+    required: true
+  memory:
+    required: true
+
+contracts:
+  request:
+    schema: RequestV1
+  response:
+    schema: ResponseV1
+  event:
+    schema: EventV1
+
+rules:
+  services_must_be_stateless: true
+  retries_enabled: true
+  telemetry_required: true
+  audit_required: true

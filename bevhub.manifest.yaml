@@ -1,0 +1,86 @@
+version: 1.0
+
+project:
+  name: BevHub AI
+  type: ai-platform
+  mode: production
+
+architecture:
+  frontend: nextjs
+  backend: django
+  database: postgresql
+  cache: redis
+  storage: s3
+  queue: redis
+  realtime: websocket
+
+providers:
+  ai:
+    primary: openai
+    fallback:
+      - anthropic
+      - google
+      - deepseek
+
+agents:
+  - planner
+  - architect
+  - backend
+  - frontend
+  - database
+  - security
+  - devops
+  - validator
+  - deployer
+
+workflows:
+  - feature
+  - bugfix
+  - deployment
+  - release
+  - refactor
+
+validation:
+  - architecture
+  - tests
+  - performance
+  - security
+  - documentation
+
+deployment:
+  - preview
+  - production
+
+monitoring:
+  - telemetry
+  - logs
+  - tracing
+
+memory:
+  - workspace
+  - project
+  - user
+
+knowledge:
+  - graph
+  - architecture
+  - code
+
+templates:
+  - ecommerce
+  - crm
+  - ai-platform
+  - saas
+
+policies:
+  - engineering
+  - security
+  - ai
+  - deployment
+
+standards:
+  - coding
+  - api
+  - database
+  - testing
+  - performance

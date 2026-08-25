@@ -1,0 +1,112 @@
+          {/* PREMIUM SIDEBAR LEFT - FILE STRUCTURE (RESTORED TO MATCH MOCKUPS) */}
+          {selectedProject && (
+            <aside className="w-full md:w-[280px] border-b md:border-b-0 md:border-r border-white/5 bg-[#09090b] flex flex-col justify-between overflow-hidden flex-shrink-0 select-none">
+              <div className="flex flex-col h-full overflow-hidden">
+                {/* Project Dropdown */}
+                <div className="p-4 border-b border-white/5">
+                  <span className="text-zinc-500 text-[10px] font-medium block mb-1.5 ml-1">Project</span>
+                  <button className="w-full flex items-center justify-between bg-[#131316] border border-white/5 hover:border-white/10 hover:bg-[#1a1a1f] transition-colors rounded-xl px-3 py-2.5 text-left shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="h-6 w-6 bg-purple-500/10 rounded-lg flex items-center justify-center border border-purple-500/20">
+                        <Folder className="h-3 w-3 text-purple-400" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-xs font-semibold text-white truncate max-w-[120px]">{selectedProject.project_name}</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                          <span className="text-[9px] text-zinc-400 font-medium">Website</span>
+                        </div>
+                      </div>
+                    </div>
+                    <ChevronDown className="h-3.5 w-3.5 text-zinc-500" />
+                  </button>
+                </div>
+                
+                {/* Nav Links */}
+                <div className="p-3 space-y-0.5">
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all">
+                    <LayoutDashboard className="h-4 w-4 text-zinc-500" /> Overview
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/10 transition-all shadow-inner">
+                    <Folder className="h-4 w-4" /> Files
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all">
+                    <Server className="h-4 w-4 text-zinc-500" /> Deployments
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all">
+                    <History className="h-4 w-4 text-zinc-500" /> History
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-all">
+                    <Settings className="h-4 w-4 text-zinc-500" /> Settings
+                  </button>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px w-full bg-white/5 my-1" />
+
+                {/* File Structure */}
+                <div className="p-3 flex-1 overflow-y-auto custom-scrollbar">
+                  <div className="flex items-center justify-between mb-3 px-2">
+                    <span className="text-[10px] font-medium text-zinc-500">File Structure</span>
+                    <button className="text-zinc-500 hover:text-white transition-colors"><Plus className="h-3.5 w-3.5" /></button>
+                  </div>
+                  
+                  <div className="space-y-0.5 font-mono text-[11px]">
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <ChevronDown className="h-3 w-3 opacity-50" /> <Folder className="h-3.5 w-3.5 text-blue-400" /> app
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-3 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <ChevronRight className="h-3 w-3 opacity-50" /> <Folder className="h-3.5 w-3.5 text-zinc-500" /> components
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-3 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <ChevronRight className="h-3 w-3 opacity-50" /> <Folder className="h-3.5 w-3.5 text-zinc-500" /> lib
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-3 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <ChevronDown className="h-3 w-3 opacity-50" /> <Folder className="h-3.5 w-3.5 text-purple-400" /> pages
+                    </div>
+                    
+                    {/* Active File */}
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-8 text-purple-400 bg-purple-500/10 rounded-lg cursor-pointer border border-purple-500/20 shadow-sm relative overflow-hidden">
+                      <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-purple-500" />
+                      <FileCode className="h-3.5 w-3.5" /> index.tsx
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-8 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <FileCode className="h-3.5 w-3.5 text-zinc-500" /> about.tsx
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-8 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <FileCode className="h-3.5 w-3.5 text-zinc-500" /> services.tsx
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-3 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <ChevronRight className="h-3 w-3 opacity-50" /> <Folder className="h-3.5 w-3.5 text-zinc-500" /> styles
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 ml-3 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <ChevronRight className="h-3 w-3 opacity-50" /> <Folder className="h-3.5 w-3.5 text-zinc-500" /> public
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors mt-2">
+                      <FileCode className="h-3.5 w-3.5 text-yellow-500" /> package.json
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 text-zinc-400 hover:text-zinc-200 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
+                      <FileCode className="h-3.5 w-3.5 text-blue-300" /> next.config.js
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Credits */}
+                <div className="p-5 bg-gradient-to-t from-black to-transparent">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[10px] font-bold flex items-center gap-1.5 text-purple-400"><Sparkles className="h-3 w-3" /> AI Credits</span>
+                    <span className="text-[10px] text-zinc-500 font-mono">350 / 500</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden shadow-inner">
+                    <div className="h-full bg-gradient-to-r from-purple-600 to-purple-400 w-[70%] shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
+                  </div>
+                </div>
+              </div>
+            </aside>
+          )}

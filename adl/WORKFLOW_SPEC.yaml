@@ -1,0 +1,26 @@
+workflow:
+  name: feature-development
+
+  stages:
+    - planning
+    - architecture
+    - backend
+    - frontend
+    - validation
+    - testing
+    - deployment
+
+parallel:
+  - backend
+  - frontend
+
+depends:
+  validation:
+    - backend
+    - frontend
+
+deployment:
+  - validation
+
+rollback:
+  - deployment

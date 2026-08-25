@@ -1,0 +1,102 @@
+
+      {showNewWorkspaceModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-zinc-950 border border-white/10 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+            <h3 className="text-lg font-bold text-white mb-2">Create New Sandbox Workspace</h3>
+            <p className="text-zinc-500 text-xs mb-4">
+              Enter a unique workspace identity to isolate project builds and models context.
+            </p>
+            <form onSubmit={handleCreateWorkspace} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Workspace Name</label>
+                <input 
+                  type="text"
+                  required
+                  placeholder="e.g. Production Cluster"
+                  value={newWorkspaceName}
+                  onChange={(e) => setNewWorkspaceName(e.target.value)}
+                  className="w-full bg-zinc-900 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500 font-mono"
+                />
+              </div>
+              <div className="flex gap-2 justify-end">
+                <button 
+                  type="button"
+                  onClick={() => setShowNewWorkspaceModal(false)}
+                  className="px-4 py-2 bg-zinc-900 border border-white/5 rounded-lg text-zinc-400 hover:text-white text-xs font-semibold"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold rounded-lg"
+                >
+                  Create Workspace
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* DRILLDOWN MODAL */}
+      {drilldownMetric && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#09090b] border border-white/10 rounded-lg w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[80vh]">
+            <div className="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-white/5">
+              <div className="flex items-center gap-2 font-mono text-xs font-bold text-purple-400">
+                <Terminal className="h-4 w-4" />
+                <span>{drilldownTitle} — Event & Cohort Audit Ledger</span>
+              </div>
+              <button 
+                onClick={() => setDrilldownMetric(null)}
+                className="text-zinc-400 hover:text-white font-mono text-xs px-2 py-0.5 hover:bg-white/5 rounded border border-white/5"
+              >
+                ESC / Close
+              </button>
+            </div>
+            
+            <div className="p-4 flex-1 overflow-auto font-mono text-[10px] text-zinc-300 space-y-2 font-mono">
+              {isDrilldownLoading ? (
+                <div className="text-center py-12 text-zinc-500 animate-pulse">
+                  Querying database records for metric [{drilldownMetric}]...
+                </div>
+              ) : drilldownData.length === 0 ? (
+                <div className="text-center py-12 text-zinc-500 italic">
+                  -- No records found for this cohort ledger under current Mode --
+                </div>
+              ) : (
+                <div className="border border-white/5 rounded overflow-hidden">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-zinc-900 text-zinc-500 border-b border-white/5 text-[9px]">
+                        {Object.keys(drilldownData[0]).filter(k => k !== 'id').map((key) => (
+                          <th key={key} className="px-3 py-2 uppercase tracking-wider">{key.replace(/_/g, ' ')}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {drilldownData.map((row, idx) => (
+                        <tr key={idx} className="border-b border-white/5 hover:bg-white/5">
+                          {Object.entries(row).filter(([k]) => k !== 'id').map(([key, val]: any, cellIdx) => (
+                            <td key={cellIdx} className="px-3 py-1.5 text-zinc-300 break-all max-w-[200px]">
+                              {val === null || val === undefined ? 'N/A' : (
+                                typeof val === 'boolean' 
+                                  ? (val ? 'TRUE' : 'FALSE') 
+                                  : (key.includes('amount') || key.includes('revenue') ? val : String(val))
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}

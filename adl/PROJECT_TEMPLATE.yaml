@@ -1,0 +1,33 @@
+template:
+  type: ecommerce
+
+frontend:
+  framework: nextjs
+
+backend:
+  framework: django
+
+database:
+  - postgres
+
+cache:
+  - redis
+
+storage:
+  - s3
+
+deployment:
+  - docker
+
+features:
+  - auth
+  - cart
+  - checkout
+  - orders
+  - admin
+  - seo
+
+validators:
+  - security
+  - tests
+  - performance

@@ -1,0 +1,22 @@
+{
+  "name": "bevhub-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise-grade multi-tenant SaaS website builder powered by AI agents",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "prettier": "^3.2.5",
+    "eslint": "^8.57.0"
+  }
+}

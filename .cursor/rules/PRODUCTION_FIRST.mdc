@@ -1,0 +1,127 @@
+---
+description: Production-first engineering standard for BevHub AI
+alwaysApply: true
+---
+
+# IDENTITY
+
+You are building a company product.
+
+Not a demo.
+
+Not an MVP prototype.
+
+Not tutorial code.
+
+Every implementation must be production quality.
+
+==================================================
+MISSION
+==================================================
+
+Every feature must be deployable.
+
+Every feature must be maintainable.
+
+Every feature must be scalable.
+
+Every feature must be testable.
+
+==================================================
+PRODUCTION STANDARD
+==================================================
+
+Never write code that would need to be rewritten before launch.
+
+Build it correctly the first time.
+
+==================================================
+NO PLACEHOLDERS
+==================================================
+
+Forbidden
+
+TODO
+FIXME
+Mock API
+Fake Response
+Temporary Solution
+Dummy Logic
+Empty Catch Blocks
+Hardcoded Secrets
+
+==================================================
+IMPLEMENTATION STANDARD
+==================================================
+
+Every feature must include
+
+Architecture
+Business Logic
+Validation
+Error Handling
+Logging
+Documentation
+Testing Hooks
+
+==================================================
+DATABASE
+==================================================
+
+Never create tables without
+
+Indexes
+Constraints
+Relations
+Migration
+Rollback Safety
+
+==================================================
+API
+==================================================
+
+Every endpoint requires
+
+Authentication
+Authorization
+Validation
+Consistent Response
+Meaningful Errors
+Audit Logging
+
+==================================================
+FRONTEND
+==================================================
+
+Every page requires
+
+Loading State
+Empty State
+Error State
+Responsive Design
+Accessibility
+Dark Mode Ready
+
+==================================================
+QUALITY CHECK
+==================================================
+
+Before completion verify
+
+No build errors
+No lint errors
+No type errors
+No broken imports
+No duplicated logic
+
+==================================================
+RELEASE RULE
+==================================================
+
+Never mark a feature complete unless it could be merged into the main branch today.
+
+==================================================
+FINAL RULE
+==================================================
+
+Write software that another senior engineer would approve during code review.

@@ -1,0 +1,106 @@
+          {/* PREMIUM RIGHT SIDEBAR - AI ASSISTANT (RESTORED TO MATCH MOCKUPS) */}
+          {selectedProject && (
+            <aside className="w-full md:w-[320px] border-t md:border-t-0 md:border-l border-white/5 bg-[#09090b] p-4 flex flex-col justify-between flex-shrink-0 relative z-20">
+              <div className="flex-1 flex flex-col overflow-hidden h-full">
+              
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4 flex-shrink-0">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-purple-400" />
+                    <span className="text-sm font-bold text-white tracking-wide">AI Assistant</span>
+                  </div>
+                  <button className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg border border-white/5 hover:bg-white/5 transition-colors">
+                    <RefreshCw className="h-3 w-3" /> New chat
+                  </button>
+                  <button className="text-zinc-500 hover:text-white sm:hidden transition-colors">
+                    <Menu className="h-4 w-4" />
+                  </button>
+                </div>
+                
+                {/* Message Log */}
+                <div className="flex-1 overflow-y-auto space-y-4 pr-1 scrollbar-thin custom-scrollbar pb-4">
+                  {chatMessages.length === 0 && (
+                    <div className="text-center text-zinc-500 text-xs mt-10">
+                      No messages yet. Ask the AI to build or edit!
+                    </div>
+                  )}
+                  {chatMessages.map((msg, idx) => (
+                    <div key={idx} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      {msg.sender !== 'user' && (
+                        <div className="h-6 w-6 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0 text-white font-bold text-[10px] shadow-[0_0_10px_rgba(147,51,234,0.5)]">
+                          G
+                        </div>
+                      )}
+                      
+                      <div 
+                        className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${
+                          msg.sender === 'user' 
+                            ? 'bg-[#1a1a1f] border border-white/10 text-zinc-200 rounded-tr-sm' 
+                            : 'bg-transparent text-zinc-300'
+                        }`}
+                      >
+                        {msg.text}
+                        
+                        {/* Mockup specific UI rendering logic for AI bubbles (e.g. checkmarks) */}
+                        {msg.sender === 'brain' && (
+                          <div className="mt-3 space-y-1.5">
+                            <div className="flex items-center gap-2 text-[10px] text-emerald-400"><CheckCircle className="h-3 w-3" /> UI Layout updated</div>
+                            <div className="flex items-center gap-2 text-[10px] text-emerald-400"><CheckCircle className="h-3 w-3" /> Styles applied</div>
+                            
+                            {/* Mini Preview inside Chat */}
+                            <div className="mt-3 border border-white/10 rounded-lg overflow-hidden relative group cursor-pointer">
+                               <div className="h-20 w-full bg-zinc-800 flex items-center justify-center text-[10px] text-zinc-500">
+                                 [Live Snapshot]
+                               </div>
+                               <button className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-[#09090b]/80 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full text-[9px] text-white flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                 <ExternalLink className="h-2.5 w-2.5" /> View changes
+                               </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {msg.sender === 'user' && (
+                        <div className="h-6 w-6 rounded-full bg-[#131316] border border-white/10 flex items-center justify-center flex-shrink-0 text-zinc-400 font-bold text-[10px]">
+                          <User className="h-3 w-3" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <div ref={chatBottomRef} />
+                </div>
+
+                {/* Chat Input */}
+                <div className="mt-2 flex-shrink-0 bg-[#131316] border border-white/10 rounded-xl p-2 relative">
+                  <form onSubmit={(e) => { handleGenerate(e); setChatInput(''); }} className="relative flex flex-col">
+                    <textarea 
+                      required
+                      disabled={isGenerating}
+                      value={chatInput}
+                      onChange={(e) => { setChatInput(e.target.value); setPrompt(e.target.value); }}
+                      placeholder="What would you like to change?"
+                      className="w-full bg-transparent px-2 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none resize-none min-h-[60px]"
+                      rows={2}
+                    />
+                    <div className="flex items-center justify-between px-2 pb-1">
+                      <button type="button" className="text-zinc-500 hover:text-zinc-300 transition-colors">
+                        <Paperclip className="h-4 w-4" />
+                      </button>
+                      <button 
+                        type="submit"
+                        disabled={isGenerating || !chatInput.trim()}
+                        className={`p-1.5 rounded-lg transition-colors flex items-center justify-center ${
+                          chatInput.trim() ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(147,51,234,0.3)]' : 'bg-white/5 text-zinc-500'
+                        }`}
+                      >
+                        {isGenerating ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <div className="text-center mt-3">
+                  <span className="text-[9px] text-zinc-600">AI can make mistakes. Verify important changes.</span>
+                </div>
+              </div>
+            </aside>
+          )}

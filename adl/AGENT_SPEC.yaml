@@ -1,0 +1,53 @@
+version: 1.0
+
+agent:
+  id: backend-lead
+  name: Backend Lead
+  version: 2.0
+
+role:
+  primary: backend_engineering
+
+capabilities:
+  - api_design
+  - business_logic
+  - authentication
+  - authorization
+  - database
+  - caching
+  - optimization
+
+inputs:
+  - task
+  - repository
+  - architecture
+  - standards
+  - policies
+
+outputs:
+  - implementation
+  - documentation
+  - tests
+
+validators:
+  - architecture
+  - security
+  - performance
+  - testing
+
+fallback:
+  retry: 2
+  alternative: senior-backend
+
+permissions:
+  filesystem: write
+  repository: write
+  internet: read
+
+memory:
+  project: true
+  workspace: true
+  session: true
+
+quality:
+  minimum: 95
