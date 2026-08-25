@@ -191,11 +191,29 @@ class AITaskViewSet(viewsets.ModelViewSet):
         if task.status == 'queued':
             from django.utils import timezone as _tz
             queued_age = (_tz.now() - task.created_at).total_seconds()
-            if queued_age > 60:
+
+            # Auto-retry: if still queued for >30 s, re-dispatch the background thread
+            # (handles gunicorn cold-start races where on_commit fired but thread died).
+            if queued_age > 30 and not getattr(task, '_requeued', False):
+                try:
+                    from core.tasks import dispatch_background_task, run_ai_orchestrator_task
+                    import logging
+                    _logger = logging.getLogger(__name__)
+                    _logger.warning(
+                        "[Watchdog] Task %s still queued after %.0fs — re-dispatching.",
+                        task.id, queued_age
+                    )
+                    dispatch_background_task(run_ai_orchestrator_task, str(task.id), request.user.id)
+                except Exception as _e:
+                    import logging
+                    logging.getLogger(__name__).error("[Watchdog] Re-dispatch failed: %s", _e)
+
+            # Hard fail after 5 minutes with no progress.
+            if queued_age > 300:
                 task.status = 'failed'
                 task.logs = (
                     (task.logs or "")
-                    + "\n[Watchdog] Task was not picked up within 60 seconds "
+                    + "\n[Watchdog] Task was not picked up within 5 minutes "
                       "(background worker unavailable). Please retry generation."
                 ).strip()
                 task.save(update_fields=['status', 'logs'])

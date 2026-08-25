@@ -760,27 +760,38 @@ class AIOrchestrator:
             try:
                 from ai.services.review_engine import ReviewService
                 from ai.services.bug_fixer import BugFixService
-                
+
                 review_service = ReviewService()
                 bug_fix_service = BugFixService()
-                
-                max_iterations = 3
+
+                max_iterations = 2           # cap: 2 fix passes max
+                max_wall_seconds = 90.0      # hard timeout to prevent infinite healing loops
                 current_iter = 0
-                
+                loop_start = time.monotonic()
+
                 # Retrieve latest review score
                 latest_review = project.reviews.order_by("-created_at").first()
                 current_score = latest_review.overall_score if latest_review else 0
-                
+
                 while current_score < 95 and current_iter < max_iterations:
+                    # Hard wall-clock timeout guard
+                    if (time.monotonic() - loop_start) > max_wall_seconds:
+                        self.log(f"Auto-Healing: Wall-clock timeout reached ({max_wall_seconds:.0f}s). Stopping loop.")
+                        break
+
                     current_iter += 1
                     self.log(f"Auto-Healing Loop: Iteration {current_iter}/{max_iterations}. Current score: {current_score}%")
-                    
-                    fix_result = bug_fix_service.run_bug_fix_pipeline(project)
-                    
+
+                    try:
+                        fix_result = bug_fix_service.run_bug_fix_pipeline(project)
+                    except Exception as fix_exc:
+                        self.log(f"Auto-Healing: BugFixService raised an error (non-fatal): {fix_exc}")
+                        break
+
                     # Refresh review
                     latest_review = project.reviews.order_by("-created_at").first()
                     current_score = latest_review.overall_score if latest_review else 0
-                    
+
                     self.log(f"Auto-Healing iteration {current_iter} complete. New score: {current_score}%")
                     if fix_result.get('rollback_available'):
                         self.log("AI Bug Fixer applied safety rollback. Breaking healing loop.")
@@ -788,8 +799,9 @@ class AIOrchestrator:
 
                 self.complete_step(s9, status='SUCCESS', tokens=5500, cost=0.055)
             except Exception as e:
+                # Stage 9 failure is non-fatal — log and continue to deployment.
+                self.log(f"Stage AUTO_FIX encountered an error (non-fatal, continuing): {e}")
                 self.complete_step(s9, status='FAILED', error=str(e))
-                raise e
 
             # ── STAGE 10: DEPLOYMENT ─────────────────────────────────────────
             s10 = self.start_step("DEPLOYMENT", model_name="gpt-4o")

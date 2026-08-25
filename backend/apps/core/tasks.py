@@ -20,28 +20,40 @@ logger = logging.getLogger(__name__)
 #      execution instead of losing the task silently.
 
 def _run_in_background_thread(fn, *args):
-    def _runner():
-        # Close any DB connection inherited from the HTTP request thread.
-        # Django will open a fresh connection when the worker first touches the DB.
-        from django.db import connection
-        connection.close()
-        try:
-            fn(*args)
-        except Exception:
-            logger.exception("[Dispatcher] Background thread execution failed")
-        finally:
-            # Return the connection to the pool cleanly.
-            connection.close()
+    """
+    Run `fn(*args)` in a non-daemon thread so gunicorn doesn't kill it
+    before it finishes. The thread closes the inherited DB connection
+    immediately so Django opens a fresh one when it first hits the DB.
+    """
+    # Capture args in the closure — do NOT pass them via Thread(args=...) or
+    # _runner() would receive them as positional arguments and raise TypeError.
+    captured_args = args
 
-    thread = threading.Thread(target=_runner, args=args, daemon=True, name="bevhub-bg-task")
+    def _runner():
+        from django.db import connection
+        connection.close()          # drop inherited request-thread connection
+        try:
+            logger.info("[Dispatcher] Background thread starting: %s %s", fn.__name__, captured_args[:1])
+            fn(*captured_args)
+            logger.info("[Dispatcher] Background thread finished: %s", fn.__name__)
+        except Exception:
+            logger.exception("[Dispatcher] Background thread execution FAILED for %s", fn.__name__)
+        finally:
+            connection.close()      # return connection to pool cleanly
+
+    # daemon=False — keeps the process alive until the task finishes.
+    # This is critical on gunicorn: daemon threads are killed when the
+    # request-handling thread exits, which would abort generation mid-run.
+    thread = threading.Thread(target=_runner, daemon=False, name="bevhub-bg-task")
     thread.start()
+    logger.info("[Dispatcher] Background thread started (id=%s)", thread.ident)
     return thread
 
 
 def dispatch_background_task(celery_task, *args):
     """
     Dispatch a task via Celery when enabled; otherwise run it in a background
-    thread. Never raises: dispatch failures degrade to thread execution.
+    thread. Never raises — dispatch failures degrade gracefully to thread execution.
     """
     from django.conf import settings
 
@@ -57,6 +69,7 @@ def dispatch_background_task(celery_task, *args):
                 celery_task.name, exc,
             )
 
+    logger.info("[Dispatcher] Dispatching %s via background thread (args=%s)", celery_task.name, args[:1])
     _run_in_background_thread(celery_task.run, *args)
 
 
