@@ -15,7 +15,7 @@ export interface AITaskData {
 
 export class AITaskService {
   public static async createTask(prompt: string, workspaceId?: string, projectId?: string): Promise<AITaskData> {
-    return APIClient.post<AITaskData>('/api/ai/tasks/', {
+    return APIClient.post<AITaskData>('/api/ai-tasks/', {
       prompt,
       workspace_id: workspaceId,
       project_id: projectId
@@ -23,11 +23,11 @@ export class AITaskService {
   }
 
   public static async getTask(taskId: string): Promise<AITaskData> {
-    return APIClient.get<AITaskData>(`/api/ai/tasks/${taskId}/`);
+    return APIClient.get<AITaskData>(`/api/ai-tasks/${taskId}/`);
   }
 
   public static async getTaskProgress(taskId: string): Promise<AITaskProgressData> {
-    return APIClient.get<AITaskProgressData>(`/api/ai/tasks/${taskId}/progress/`);
+    return APIClient.get<AITaskProgressData>(`/api/ai-tasks/${taskId}/progress/`);
   }
 }
 
